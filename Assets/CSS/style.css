@@ -1,0 +1,32 @@
+.body-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-container {
+    /* justify-self: flex-start;
+    align-self: flex-start; */
+    width: 30%;
+}
+
+.navbar {
+    width: 100%;
+}
+
+.list-group {
+    width: 100%;
+}
+
+.forecast-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.forecast-cards {
+    display: flex;
+}
+
+.card {
+    margin: 1%;
+    padding: 1%;;
+}
