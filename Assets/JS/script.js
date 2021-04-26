@@ -9,9 +9,6 @@ var cardCityWind = document.querySelector('#city-wind');
 var cardCityUv = document.querySelector('#city-uv');
 
 //initialize variables to be used globally
-var secondUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat + "&lon=" +  cityLon +"&exclude=minutely&appid=22da6aaaf94bcdcc6197f3b16198b09d";
-var cityLat = 0;
-var cityLon = 0;
 
 //function run when the 'search' button is clicked
 searchButton.addEventListener('click', function(event){
@@ -26,18 +23,29 @@ searchButton.addEventListener('click', function(event){
         alert("Please enter a valid city name.")
     } else {
         fetch(url)
-            .then(function(response)
-            {
+            .then(function(response){
                 if(response.status !== 200) { //if they city they searched is not found, alert will pop up
                     alert("Not a valid city.")
                 }
                 return response.json();
             })
             .then(function(data){
-                cityLat = data.coord.lat;
-                cityLon = data.coord.lon;
+                console.log(data);
+               var cityLat = data.coord.lat;
+               var cityLon = data.coord.lon;
 
-                return cityLon, cityLat;
+               console.log(cityLat);
+               console.log(cityLon);
+
+
+                return fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely&appid=22da6aaaf94bcdcc6197f3b16198b09d");
+            })
+            .then(function(data){
+                return data.json();
+            })
+            .then(function(response){
+                console.log(response);
+            })
                 
                 // console.log(cityLat);
                 // console.log(cityLon);
@@ -55,9 +63,7 @@ searchButton.addEventListener('click', function(event){
                 // cardCityHumid.textContent = "Humidity: " + data.main.humidity + " %";
                 // cardCityWind.textContent = "Wind: " + data.wind.speed + " MPH";
                 // cardCityUv.textContent = "UV Index: " 
-                
-            })
-            
+                            
 
         
     }
@@ -66,15 +72,3 @@ searchButton.addEventListener('click', function(event){
 
 
 
-function getData() {
-    console.log(cityLat);
-    console.log(cityLon);
-    fetch(secondUrl)
-        .then(function(response) {
-                        response.json();
-        })
-        .then(function(data) {
-                        console.log(data);
-        })
-
- }
