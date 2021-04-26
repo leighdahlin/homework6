@@ -45,14 +45,32 @@ h2 {
 
 .featured {
     height: 70%;
+    width: 100%;
+
+}
+
+h4 {
+    padding: 2%;
+    display: inline;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: inline;
+}
+
+img {
+    display: inline;
+}
+
+h6 {
+    padding: 1.5%;
 }
 
 .daily {
     height: 10rem;
     width: 8rem;
-}
-
-#featured-city {
-    width: 100%;
-    
 }

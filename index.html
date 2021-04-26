@@ -25,27 +25,30 @@
         <div class= "nav-container">
             <nav class="navbar navbar-light bg-light">
                 <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Enter a City Name" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control mr-sm-2" type="search" placeholder="Enter a City Name" aria-label="Search" id="search-bar">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search-button">Search</button>
                 </form>
             </nav>
             <div class="list-group">
-                <button type="button" class="list-group-item list-group-item-action"></button>
-                <button type="button" class="list-group-item list-group-item-action"></button>
-                <button type="button" class="list-group-item list-group-item-action"></button>
-                <button type="button" class="list-group-item list-group-item-action"></button>
-                <button type="button" class="list-group-item list-group-item-action"></button>
-                <button type="button" class="list-group-item list-group-item-action"></button>
-                <button type="button" class="list-group-item list-group-item-action"></button>
-                <button type="button" class="list-group-item list-group-item-action"></button>
+                <button type="button" class="list-group-item list-group-item-action" id="button1"></button>
+                <button type="button" class="list-group-item list-group-item-action" id="button2"></button>
+                <button type="button" class="list-group-item list-group-item-action" id="button3"></button>
+                <button type="button" class="list-group-item list-group-item-action" id="button4"></button>
+                <button type="button" class="list-group-item list-group-item-action" id="button5"></button>
+                <button type="button" class="list-group-item list-group-item-action" id="button6"></button>
+                <button type="button" class="list-group-item list-group-item-action" id="button7"></button>
+                <button type="button" class="list-group-item list-group-item-action" id="button8"></button>
             </div>
         </div>
         <div>
             <div class="card featured">
                 <div class="card-body">
-                <h5 class="card-title">City Name</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <h4 class="card-title" id="city-name">Search a City for Information</h4>
+                <img id="weather-icon" alt="weather icon" class="hidden"/>
+                <h6 class="card-subtitle mb-2 text-muted" id="city-temp">Temperature:</h6>
+                <h6 class="card-subtitle mb-2 text-muted" id="city-humid">Humidity:</h6>
+                <h6 class="card-subtitle mb-2 text-muted" id="city-wind">Wind Speed: </h6>
+                <h6 class="card-subtitle mb-2 text-muted" id="city-uv">UV Index:</h6>
                 </div>
             </div>
             <div class="forecast-container">
@@ -90,7 +93,6 @@
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="Assets/JS/script.js"></script>
 </body>
 </html>
