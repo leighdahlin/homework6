@@ -26,10 +26,13 @@
             <nav class="navbar navbar-light bg-light">
                 <form class="form-inline">
                 <input class="form-control mr-sm-2" type="search" placeholder="Enter a City Name" aria-label="Search" id="search-bar">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search-button">Search</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                  </svg></button>
                 </form>
             </nav>
-            <div class="list-group">
+            <!-- <div class="list-group">
                 <button type="button" class="list-group-item list-group-item-action" id="button1"></button>
                 <button type="button" class="list-group-item list-group-item-action" id="button2"></button>
                 <button type="button" class="list-group-item list-group-item-action" id="button3"></button>
@@ -38,17 +41,22 @@
                 <button type="button" class="list-group-item list-group-item-action" id="button6"></button>
                 <button type="button" class="list-group-item list-group-item-action" id="button7"></button>
                 <button type="button" class="list-group-item list-group-item-action" id="button8"></button>
-            </div>
+            </div> -->
         </div>
-        <div>
+        <div id="card-container">
             <div class="card featured">
                 <div class="card-body">
-                <h4 class="card-title" id="city-name">Search a City for Information</h4>
-                <img id="weather-icon" alt="weather icon" class="hidden"/>
-                <h6 class="card-subtitle mb-2 text-muted" id="city-temp">Temperature:</h6>
-                <h6 class="card-subtitle mb-2 text-muted" id="city-humid">Humidity:</h6>
-                <h6 class="card-subtitle mb-2 text-muted" id="city-wind">Wind Speed: </h6>
-                <h6 class="card-subtitle mb-2 text-muted" id="city-uv">UV Index:</h6>
+                    <h5 id="current-date"></h5>
+                    <div class="header-div">
+                        
+                        <h4 class="card-title" id="city-name">Search a City for Information</h4>
+                        <img id="weather-icon" alt="weather icon" class="hidden"/>
+                        
+                    </div>
+                    <h6 class="card-subtitle mb-2 text-muted" id="city-temp">Temperature:</h6>
+                    <h6 class="card-subtitle mb-2 text-muted" id="city-humid">Humidity:</h6>
+                    <h6 class="card-subtitle mb-2 text-muted" id="city-wind">Wind Speed: </h6>
+                    <h6 class="card-subtitle mb-2 text-muted" id="city-uv">UV Index:</h6>
                 </div>
             </div>
             <div class="forecast-container">
@@ -56,9 +64,10 @@
                 <div class="forecast-cards">
                     <div class="card daily" style="width: 9rem;">
                         <div class="card-body">
-                        <h5 class="card-title" id="day1">Day 1</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Card subtSomitle</h6>
-                        <p class="card-text"></p>
+                        <h5 class="card-title" id="date0"></h5>
+                        <img id="icon0"/>
+                        <p class="card-text" id="temp0"></p>
+                        <p class="card-text" id="humid0"></p>
                         </div>
                     </div>
                     <div class="card daily" style="width: 9rem;">
@@ -93,6 +102,7 @@
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="Assets/JS/script.js"></script>
 </body>
 </html>

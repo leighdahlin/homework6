@@ -13,6 +13,7 @@ h1, p {
 
 .navbar {
     width: 100%;
+    justify-content: center;
 }
 
 .list-group {
@@ -31,6 +32,12 @@ h2 {
     margin: 1%;
 }
 
+
+#search-bar {
+    display: block;
+    width: 170px;
+}
+
 .forecast-cards {
     display: flex;
     width: 100%;
@@ -44,14 +51,25 @@ h2 {
 }
 
 .featured {
-    height: 70%;
+    height: 55%;
     width: 100%;
 
 }
 
-h4 {
-    padding: 2%;
+.header-div {
+    height: 75px;
+    display: flex;
+    align-content: center;
+}
+
+#current-date {
+    margin-left: 3%;
+}
+
+#city-name {
+    margin: 3%;
     display: inline;
+    height: 100%;
 }
 
 .hidden {
@@ -67,10 +85,16 @@ img {
 }
 
 h6 {
-    padding: 1.5%;
+    padding: 3%;
+    margin: 3%;
 }
 
 .daily {
     height: 10rem;
     width: 8rem;
+}
+
+#icon0 {
+    height: 25%;
+    text-align: center;
 }
