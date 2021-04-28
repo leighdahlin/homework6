@@ -1,7 +1,8 @@
 //Assign variables for selectors
 var searchEl = document.querySelector('#search-bar');
 var searchButton = document.querySelector('#search-button');
-var cardContainerEl = document.querySelector('#card-container')
+var buttonEl = document.querySelector('.button-div')
+var cardContainerEl = document.querySelector('#card-container');
 var dateEl = document.querySelector('#current-date');
 var cardCityName = document.querySelector('#city-name');
 var weatherIconEl = document.querySelector('#weather-icon');
@@ -10,8 +11,10 @@ var cardCityHumid = document.querySelector('#city-humid');
 var cardCityWind = document.querySelector('#city-wind');
 var cardCityUv = document.querySelector('#city-uv');
 
+//store recent search in local storage, limited to 8 searches
+var storedSearches = JSON.parse(localStorage.getItem("cities")) || [];
 
-
+//function to display the current date
 function displayDate() {
     var rightNow = moment().format('dddd, MMMM Do');
     dateEl.textContent = rightNow;
@@ -21,7 +24,7 @@ function displayDate() {
 //function run when the 'search' button is clicked
 searchButton.addEventListener('click', function(event){
     event.preventDefault();
-    
+    // generateButtons();
     var cityName = searchEl.value; //what the user types into search parameter
     //the first url is used to get the lat/long coordinates
     var url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=22da6aaaf94bcdcc6197f3b16198b09d";
@@ -33,6 +36,37 @@ searchButton.addEventListener('click', function(event){
         var cityCapitalized = cityName.toLowerCase(); //converts the string to all lower case in case user used all caps
         cityCapitalized = cityCapitalized.charAt(0).toUpperCase() + cityCapitalized.slice(1); //capitalizes first letter of string
         cardCityName.textContent = cityCapitalized;
+        
+        //stores city search if it doesn't matach another search
+        var mostRecentSearch = cityCapitalized;
+        storedSearches.push(mostRecentSearch);
+
+        //remove first buttons once reaches a certain length
+        // if(storedSearches.length === 8) {
+        //         storedSearches.shift();
+                // buttonEl.removeChild(buttonEl.firstChild);
+            // }
+
+
+        // for(var i = 0; i <= storedSearches.length; i++) {
+        //     if(cityCapitalized == storedSearches[i]) {
+        //             console.log("It matches");
+        //             storedSearches.pop();
+        //     } }
+        localStorage.setItem('cities', JSON.stringify(storedSearches));
+
+        var cityButton = document.createElement('button');
+        cityButton.setAttribute('type', 'button');
+        cityButton.setAttribute('class', 'list-group-item list-group-item-action');
+        var buttonId = cityCapitalized;
+        cityButton.setAttribute('id', buttonId);
+        cityButton.textContent = cityCapitalized;
+
+        buttonEl.appendChild(cityButton);
+
+        
+        //runs function to create buttons using local storage
+
         fetch(url)
             .then(function(response){
                 if(response.status !== 200) { //if they city they searched is not found, alert will pop up
@@ -64,32 +98,28 @@ searchButton.addEventListener('click', function(event){
                 cardCityWind.textContent = "Wind: " + response.current.wind_speed + " MPH";
                 cardCityUv.textContent = "UV Index: " + response.current.uvi;
 
-                var dateEl = document.querySelector("#date0");
-                dateEl.textContent = moment().add(1,'days').format('MM/DD');
+                for (var i=0; i<5; i++) {
+                    var dateSelector = "#date" + i
+                    var dateEl = document.querySelector(dateSelector);
+                    dateEl.textContent = moment().add(i + 1,'days').format('MM/DD');
 
-                var iconEl = document.querySelector("#icon0");
-                var dailyIconUrl = "http://openweathermap.org/img/wn/" + response.daily[0].weather[0].icon +"@2x.png";
-                iconEl.setAttribute('src', dailyIconUrl)
+                    var iconSelector = "#icon" + i
+                    var iconEl = document.querySelector(iconSelector);
+                    var dailyIconUrl = "http://openweathermap.org/img/wn/" + response.daily[i].weather[0].icon +"@2x.png";
+                    iconEl.setAttribute('src', dailyIconUrl)
 
-                var tempEl = document.querySelector("#temp0");
-                dailyTemp = response.daily[0].temp.day
-                tempEl.textContent = "Temperature: " + calculateDegreesF(dailyTemp) + " \u00B0 F";
+                    var tempSelector = "#temp" + i
+                    var tempEl = document.querySelector(tempSelector);
+                    dailyTemp = response.daily[i].temp.day
+                    tempEl.textContent = "Temp: " + calculateDegreesF(dailyTemp) + " \u00B0 F";
 
-                var humidEl = document.querySelector("#humid0");
-                humidEl.textContent = "Humidity: " + response.daily[0].humidity + " %";
-
+                    var humidSelector = "#humid" + i
+                    var humidEl = document.querySelector(humidSelector);
+                    humidEl.textContent = "Humidity: " + response.daily[i].humidity + " %";
+                }
 
                 
             })
-                                
-                
-
-                
-                
-
-                 
-                            
-
         
     }
 })
@@ -99,10 +129,27 @@ function calculateDegreesF(temp) {
     return tempinF;
 }
 
+function generateButtons() {
+    if(storedSearches.length !== 0) {
+        for (i=0; i<storedSearches.length; i++) {            
+            var cityButton = document.createElement('button');
+            cityButton.setAttribute('type', 'button');
+            cityButton.setAttribute('class', 'list-group-item list-group-item-action');
+            var buttonId = storedSearches[i];
+            cityButton.setAttribute('id', buttonId);
+            cityButton.textContent = storedSearches[i];
+
+            buttonEl.appendChild(cityButton);
+        }
+    }
+}
+
 
 
 function init () {
     displayDate();
+    generateButtons();
+    
 }
 
 init();
