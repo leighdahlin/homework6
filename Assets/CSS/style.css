@@ -44,7 +44,9 @@ h2 {
     width: 170px;
 }
 
-
+.button-div {
+    margin: 2%;
+}
 
 .card {
     margin: 1%;
@@ -71,6 +73,15 @@ h2 {
     display: inline;
     height: 100%;
 }
+
+/* #city-uv, #uv-num {
+    display: inline;
+} */
+
+#uv {
+    display: flex;
+    flex-direction: row;
+} 
 
 .hidden {
     display: none;
