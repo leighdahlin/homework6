@@ -2,7 +2,7 @@
 var searchEl = document.querySelector('#search-bar');
 var searchButton = document.querySelector('#search-button');
 var buttonEl = document.querySelector('.button-div')
-var futureWeather = document.querySelector('#forecast-container');
+var futureWeather = document.querySelector('.forecast-container');
 var cardContainerEl = document.querySelector('#card-container');
 var dateEl = document.querySelector('#current-date');
 var cardCityName = document.querySelector('#city-name');
@@ -54,9 +54,6 @@ searchButton.addEventListener('click', function(event){
 
         createButton(cityCapitalized);
         console.log(buttonEl.childNodes[1]);
-
-
-        
     }
 });
 
@@ -65,11 +62,11 @@ buttonEl.addEventListener("click", function(event){
         var buttonPress = event.target.id
         cardCityName.textContent = buttonPress;
         fetchWeatherInfo(buttonPress);
-
-
     }
     event.stopPropagation();
 });
+
+//API call to pull weather information
 function fetchWeatherInfo(cityName) {
     var url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=22da6aaaf94bcdcc6197f3b16198b09d";
     fetch(url)
@@ -114,7 +111,7 @@ function fetchWeatherInfo(cityName) {
         } else {
             spanEl.setAttribute('style','background: red; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
         }
-
+        futureWeather.setAttribute('class', 'forecast-container')
         for (var i=0; i<5; i++) {
             var dateSelector = "#date" + i
             var dateEl = document.querySelector(dateSelector);
