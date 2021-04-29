@@ -22,10 +22,6 @@ function displayDate() {
     dateEl.textContent = rightNow;
 };
 
-function defaultDisplay() {
-    
-}
-
 //function run when the 'search' button is clicked
 searchButton.addEventListener('click', function(event){
     event.preventDefault(); //prevents browers from refreshing page
@@ -100,7 +96,7 @@ function fetchWeatherInfo(cityName) {
     .catch(function(error) {
         alert("Error: " + response.statusText);
     })  
-}
+};
 
 function pullAllData(lat, long) {
     fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + long + "&exclude=minutely,hourly&appid=22da6aaaf94bcdcc6197f3b16198b09d")
@@ -108,7 +104,113 @@ function pullAllData(lat, long) {
         return data.json();
     })
     .then(function(response){
-        console.log(response);
+
+        //populates the page with data from openweathermap.org
+        var iconUrl = "http://openweathermap.org/img/wn/" + response.current.weather[0].icon +"@2x.png";
+        weatherIconEl.setAttribute('src', iconUrl);
+        weatherIconEl.setAttribute('class', "visible");
+
+        var cityTemp = response.current.temp;
+        
+        cardCityTemp.textContent = "Temperature: " + calculateDegreesF(cityTemp) + " \u00B0 F";
+
+        cardCityHumid.textContent = "Humidity: " + response.current.humidity + " %";
+        cardCityWind.textContent = "Wind: " + response.current.wind_speed + " MPH";
+        
+        var currentUVIndex = response.current.uvi;
+        cardCityUv.textContent = "UV Index: ";
+        var spanEl = document.createElement("span"); //spans around uv index number so the background can change depending on the number
+        spanEl.textContent = currentUVIndex;
+        cardCityUv.appendChild(spanEl);
+
+        //changes background of UV index based on the number
+        if(currentUVIndex<6) {
+            spanEl.setAttribute('style','background: green; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
+        } else if(currentUVIndex <9) {
+            spanEl.setAttribute('style','background: yellow; border-radius: 10px; padding: 5px; padding-left: 10px; padding-right: 10px;')
+        } else {
+            spanEl.setAttribute('style','background: red; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
+        }
+
+        //populates the future weather forecase cards
+        for (var i=0; i<5; i++) {
+            var dateSelector = "#date" + i
+            var dateEl = document.querySelector(dateSelector);
+            dateEl.textContent = moment().add(i + 1,'days').format('MM/DD');
+
+            var iconSelector = "#icon" + i
+            var iconEl = document.querySelector(iconSelector);
+            var dailyIconUrl = "http://openweathermap.org/img/wn/" + response.daily[i].weather[0].icon +"@2x.png";
+            iconEl.setAttribute('src', dailyIconUrl)
+
+            var tempSelector = "#temp" + i
+            var tempEl = document.querySelector(tempSelector);
+            dailyTemp = response.daily[i].temp.day
+            tempEl.textContent = "Temp: " + calculateDegreesF(dailyTemp) + " \u00B0 F";
+
+            var humidSelector = "#humid" + i
+            var humidEl = document.querySelector(humidSelector);
+            humidEl.textContent = "Humidity: " + response.daily[i].humidity + " %";
+        }
+
+        
+    })
+};
+
+//converts temp from kelvin to F
+function calculateDegreesF(temp) {
+    var tempinF = Math.floor((temp - 273.15) * (9/5) + 32);
+    return tempinF;
+};
+
+//creates inital buttons when search is generated
+function createButton(city) {
+    var cityButton = document.createElement('button');
+    cityButton.setAttribute('type', 'button');
+    cityButton.setAttribute('class', 'list-group-item list-group-item-action');
+    var buttonId = city;
+    cityButton.setAttribute('id', buttonId);
+    cityButton.textContent = city;
+
+    buttonEl.appendChild(cityButton);
+};
+
+//generates search history buttons when page is refreshed 
+function generateSavedButtons() {
+    if(storedSearches.length !== 0) {
+        for (i=0; i<storedSearches.length; i++) {            
+            var cityButton = document.createElement('button');
+            cityButton.setAttribute('type', 'button');
+            cityButton.setAttribute('class', 'list-group-item list-group-item-action');
+            var buttonId = storedSearches[i];
+            cityButton.setAttribute('id', buttonId);
+            cityButton.textContent = storedSearches[i];
+
+            buttonEl.appendChild(cityButton);
+        }
+    }
+};
+
+//when page loaded, displays data from predefined city
+//had to do separate from search funtion's fetchWeatherInfo/ pullAllInfo functions so that it wouldn't be stored in local storage but same code is used (exlcuding local storage and generate button code)
+function defaultDisplay(city) {
+    var url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=22da6aaaf94bcdcc6197f3b16198b09d";
+    
+    fetch(url)
+    .then(function(response){
+        return response.json()
+    })
+    .then(function(data){
+        cityLat = data.coord.lat;
+        cityLon = data.coord.lon;
+
+        return fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly&appid=22da6aaaf94bcdcc6197f3b16198b09d")
+    })
+    .then(function(data){
+        return data.json();
+    })
+    .then(function(response){
+        cardCityName.textContent = city;
         var iconUrl = "http://openweathermap.org/img/wn/" + response.current.weather[0].icon +"@2x.png";
         weatherIconEl.setAttribute('src', iconUrl);
         weatherIconEl.setAttribute('class', "visible");
@@ -152,48 +254,16 @@ function pullAllData(lat, long) {
             var humidEl = document.querySelector(humidSelector);
             humidEl.textContent = "Humidity: " + response.daily[i].humidity + " %";
         }
-
-        
     })
-}
 
-function createButton(city) {
-    var cityButton = document.createElement('button');
-    cityButton.setAttribute('type', 'button');
-    cityButton.setAttribute('class', 'list-group-item list-group-item-action');
-    var buttonId = city;
-    cityButton.setAttribute('id', buttonId);
-    cityButton.textContent = city;
-
-    buttonEl.appendChild(cityButton);
-}
-
-function calculateDegreesF(temp) {
-    var tempinF = Math.floor((temp - 273.15) * (9/5) + 32);
-    return tempinF;
-}
-
-function generateSavedButtons() {
-    if(storedSearches.length !== 0) {
-        for (i=0; i<storedSearches.length; i++) {            
-            var cityButton = document.createElement('button');
-            cityButton.setAttribute('type', 'button');
-            cityButton.setAttribute('class', 'list-group-item list-group-item-action');
-            var buttonId = storedSearches[i];
-            cityButton.setAttribute('id', buttonId);
-            cityButton.textContent = storedSearches[i];
-
-            buttonEl.appendChild(cityButton);
-        }
-    }
-}
+};
 
 
 
 function init () {
     displayDate();
     generateSavedButtons();
-    fetchWeatherInfo("Sacramento"); //pre-populates weather info for Sacramento, could use "current location" in future when know how to pull
+    defaultDisplay("Sacramento"); //pre-populates weather info for Sacramento, could use "current location" in future when know how to pull
 
 }
 
