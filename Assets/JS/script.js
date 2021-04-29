@@ -260,13 +260,10 @@ function defaultDisplay(city) {
 
 };
 
-
-
 function init () {
     displayDate();
     generateSavedButtons();
     defaultDisplay("Sacramento"); //pre-populates weather info for Sacramento, could use "current location" in future when know how to pull
-
 }
 
 init();
