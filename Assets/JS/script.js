@@ -34,11 +34,11 @@ searchButton.addEventListener('click', function(event){
     searchEl.value = ""; //clears the search field
 
     if(cityName === "") { //if they click search without inputting anything, alert wil pop up
-        alert("Please enter a valid city name.")
+        alert("Please enter a valid city name.");
+        return;
     } else {
         var cityCapitalized = cityName.toLowerCase(); //converts the string to all lower case in case user used all caps
         cityCapitalized = cityCapitalized.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()); //capitalizes first letter of each word
-        cardCityName.textContent = cityCapitalized;
         
         //stores city search if it doesn't matach another search
         var mostRecentSearch = cityCapitalized;
@@ -52,7 +52,6 @@ searchButton.addEventListener('click', function(event){
 
         localStorage.setItem('cities', JSON.stringify(storedSearches));
 
-        createButton(cityCapitalized);
         console.log(buttonEl.childNodes[1]);
     }
 });
@@ -60,7 +59,7 @@ searchButton.addEventListener('click', function(event){
 buttonEl.addEventListener("click", function(event){
     if(event.target !== event.currentTarget) {
         var buttonPress = event.target.id
-        cardCityName.textContent = buttonPress;
+        // cardCityName.textContent = buttonPress;
         fetchWeatherInfo(buttonPress);
     }
     event.stopPropagation();
@@ -68,15 +67,19 @@ buttonEl.addEventListener("click", function(event){
 
 //API call to pull weather information
 function fetchWeatherInfo(cityName) {
+    
     var url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=22da6aaaf94bcdcc6197f3b16198b09d";
     fetch(url)
     .then(function(response){
         if(response.status !== 200) { //if they city they searched is not found, alert will pop up
-            alert("Not a valid city.")
+            alert("Not a valid city.");
+            return;
         }
         return response.json();
     })
     .then(function(data){
+        cardCityName.textContent = cityName; 
+        createButton(cityName);
        var cityLat = data.coord.lat;
        var cityLon = data.coord.lon;
 
@@ -171,6 +174,7 @@ function generateSavedButtons() {
 
 function init () {
     displayDate();
+    fetchWeatherInfo("Sacramento"); //pre-populates weather info for Sacramento, could use "current location" in future when know how to pull
     generateSavedButtons();
 }
 
