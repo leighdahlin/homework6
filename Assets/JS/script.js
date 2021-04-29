@@ -38,9 +38,23 @@ searchButton.addEventListener('click', function(event){
         var cityCapitalized = cityName.toLowerCase(); 
         //capitalizes first letter of each word
         cityCapitalized = cityCapitalized.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()); 
+
+         //stores city search if it doesn't matach another search
+        var mostRecentSearch = cityCapitalized;
+        storedSearches.push(mostRecentSearch);
+        
+        //when more than 10 items in local storage, removes first item in local storage and corresponding button
+        if(storedSearches.length > 11) {
+                storedSearches.shift();
+                buttonEl.removeChild(buttonEl.childNodes[1]);
+            }
+                
+        //saves the cities search in local storage
+        localStorage.setItem('cities', JSON.stringify(storedSearches));
         
         //runs function to fetch weather data and input it into the page
         ;
+        createButton(cityName);
         fetchWeatherInfo(cityCapitalized);
         
     }
@@ -71,20 +85,8 @@ function fetchWeatherInfo(cityName) {
         if(response.ok) { 
            response.json().then(function(data){
             cardCityName.textContent = cityName; 
-            //stores city search if it doesn't matach another search
-            var mostRecentSearch = cityName;
-            storedSearches.push(mostRecentSearch);
 
-            //when more than 10 items in local storage, removes first item in local storage and corresponding button
-            if(storedSearches.length > 11) {
-                    storedSearches.shift();
-                    buttonEl.removeChild(buttonEl.childNodes[1]);
-                }
-        
-            //saves the cities search in local storage
-            localStorage.setItem('cities', JSON.stringify(storedSearches));
 
-            createButton(cityName);
            var cityLat = data.coord.lat;
            var cityLon = data.coord.lon;
             pullAllData(cityLat,cityLon);
@@ -127,7 +129,7 @@ function pullAllData(lat, long) {
         if(currentUVIndex<6) {
             spanEl.setAttribute('style','background: green; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
         } else if(currentUVIndex <9) {
-            spanEl.setAttribute('style','background: yellow; border-radius: 10px; padding: 5px; padding-left: 10px; padding-right: 10px;')
+            spanEl.setAttribute('style','background: #ffefa1; border-radius: 10px; padding: 5px; padding-left: 10px; padding-right: 10px;')
         } else {
             spanEl.setAttribute('style','background: red; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
         }
@@ -230,7 +232,7 @@ function defaultDisplay(city) {
         if(currentUVIndex<6) {
             spanEl.setAttribute('style','background: green; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
         } else if(currentUVIndex <9) {
-            spanEl.setAttribute('style','background: yellow; border-radius: 10px; padding: 5px; padding-left: 10px; padding-right: 10px;')
+            spanEl.setAttribute('style','background: #ffefa1; border-radius: 10px; padding: 5px; padding-left: 10px; padding-right: 10px;')
         } else {
             spanEl.setAttribute('style','background: red; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
         }

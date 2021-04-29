@@ -1,9 +1,14 @@
+:root {
+    --cream: #fffdf7;
+    --other: #d8e2dc;
+}
+
 .body-container {
     display: flex;
     justify-content: space-evenly;
     background-image: url(../Images/beach\ \(3\).jpeg);
     background-size: cover;
-
+    font-family: 'Baloo 2', cursive;
 }
 
 .jumbotron {
@@ -11,16 +16,22 @@
     color: white;
     background-image: url(../Images/beach\ \(2\).jpeg);
     background-size: cover;
+    font-family: 'Shrikhand', cursive;
+
+}
+
+#dashboard {
+    color: var(--cream);
+    font-size: 4.5rem;
 }
 
 .header-info {
+    color: var(--cream);
     text-align: center;
+    font-size: 2.5rem;
 }
 
 .nav-container {
-    /* display: flex;
-    flex-direction: column;
-    align-content: center; */
     width: 28%;
 }
 
@@ -29,11 +40,20 @@
     justify-content: center;
     border-radius: 15px;
     margin: 0rem 2% 4% 2%;
+    background-color: var(--other);
+}
+
+.form-control{
+    background-color: var(--cream);
 }
 
 
 .list-group {
     width: 100%;
+}
+
+.list-group-item {
+    background-color: var(--other);
 }
 
 #card-container {
@@ -65,6 +85,7 @@ h2 {
 .card {
     margin: 1%;
     border-radius: 15px;
+    background-color: var(--other);
     
 }
 
@@ -73,6 +94,7 @@ h2 {
     width: 90%;
     margin: 0rem 5% 5% 5%;
     border-radius: 15px;
+    background-color: var(--other);
     
 }
 
@@ -91,10 +113,6 @@ h2 {
     display: inline;
     height: 100%;
 }
-
-/* #city-uv, #uv-num {
-    display: inline;
-} */
 
 #uv {
     display: flex;
@@ -131,7 +149,7 @@ h6 {
 }
 
 .card-body p {
-    font-size: .75rem;
+    font-size: .85rem;
 }
 
 .icon {
