@@ -17,11 +17,10 @@
     text-align: center;
 }
 
-.body-container {
-    
-}
-
 .nav-container {
+    /* display: flex;
+    flex-direction: column;
+    align-content: center; */
     width: 28%;
 }
 
@@ -29,6 +28,7 @@
     width: 100%;
     justify-content: center;
     border-radius: 15px;
+    margin: 0rem 2% 4% 2%;
 }
 
 
@@ -39,13 +39,12 @@
 #card-container {
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 70%;
 }
 
 .forecast-container {
     display: flex;
     flex-direction: column;
-    margin-top: 5%;
     width: 100%;
 }
 
@@ -71,9 +70,10 @@ h2 {
 
 .featured {
     height: 55%;
-    width: 100%;
-    margin-top: 0rem;
+    width: 90%;
+    margin: 0rem 5% 5% 5%;
     border-radius: 15px;
+    
 }
 
 .header-div {
