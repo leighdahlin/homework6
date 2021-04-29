@@ -127,11 +127,11 @@ function pullAllData(lat, long) {
 
         //changes background of UV index based on the number
         if(currentUVIndex<6) {
-            spanEl.setAttribute('style','background: green; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
+            spanEl.setAttribute('style','background: #81b29a; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
         } else if(currentUVIndex <9) {
             spanEl.setAttribute('style','background: #ffefa1; border-radius: 10px; padding: 5px; padding-left: 10px; padding-right: 10px;')
         } else {
-            spanEl.setAttribute('style','background: red; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
+            spanEl.setAttribute('style','background: #f07167; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
         }
 
         //populates the future weather forecase cards
@@ -230,11 +230,11 @@ function defaultDisplay(city) {
         spanEl.textContent = currentUVIndex;
         cardCityUv.appendChild(spanEl);
         if(currentUVIndex<6) {
-            spanEl.setAttribute('style','background: green; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
+            spanEl.setAttribute('style','background: #81b29a; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
         } else if(currentUVIndex <9) {
             spanEl.setAttribute('style','background: #ffefa1; border-radius: 10px; padding: 5px; padding-left: 10px; padding-right: 10px;')
         } else {
-            spanEl.setAttribute('style','background: red; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
+            spanEl.setAttribute('style','background: #f07167; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
         }
         futureWeather.setAttribute('class', 'forecast-container')
         for (var i=0; i<5; i++) {
