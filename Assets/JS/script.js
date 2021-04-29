@@ -13,79 +13,97 @@ var cardCityWind = document.querySelector('#city-wind');
 var cardCityUv = document.querySelector('#city-uv');
 var UvNumber = document.querySelector('#uv-num');
 
-//store recent search in local storage, limited to 8 searches
+//store recent search in local storage, limited to 10 searches
 var storedSearches = JSON.parse(localStorage.getItem("cities")) || [];
 
 //function to display the current date
 function displayDate() {
     var rightNow = moment().format('dddd, MMMM Do');
     dateEl.textContent = rightNow;
-
 };
+
+function defaultDisplay() {
+    
+}
 
 //function run when the 'search' button is clicked
 searchButton.addEventListener('click', function(event){
-    event.preventDefault();
+    event.preventDefault(); //prevents browers from refreshing page
 
-    var cityName = searchEl.value; //what the user types into search parameter
+    var cityName = searchEl.value; //what the user types into search bar
+    searchEl.value = ""; //clears the search field once 'search' button is pressed
 
-    //the first url is used to get the lat/long coordinates
-    fetchWeatherInfo(cityName);
-    searchEl.value = ""; //clears the search field
-
-    if(cityName === "") { //if they click search without inputting anything, alert wil pop up
-        alert("Please enter a valid city name.");
+    //if they click search without inputting anything, alert wil pop up
+    if(cityName === "") { 
+        alert("Please enter a city.");
         return;
     } else {
-        var cityCapitalized = cityName.toLowerCase(); //converts the string to all lower case in case user used all caps
-        cityCapitalized = cityCapitalized.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()); //capitalizes first letter of each word
+        //converts the string to all lower case in case user used all caps
+        var cityCapitalized = cityName.toLowerCase(); 
+        //capitalizes first letter of each word
+        cityCapitalized = cityCapitalized.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()); 
         
-        //stores city search if it doesn't matach another search
-        var mostRecentSearch = cityCapitalized;
-        storedSearches.push(mostRecentSearch);
-
-        //when more than 10 items in local storage, removes first item in local storage and corresponding button
-        if(storedSearches.length > 11) {
-                storedSearches.shift();
-                buttonEl.removeChild(buttonEl.childNodes[1]);
-            }
-
-        localStorage.setItem('cities', JSON.stringify(storedSearches));
-
-        console.log(buttonEl.childNodes[1]);
+        //runs function to fetch weather data and input it into the page
+        ;
+        fetchWeatherInfo(cityCapitalized);
+        
     }
 });
 
+//event listener for when a previous seach button is clicked, targets the parent container of the buttons
 buttonEl.addEventListener("click", function(event){
+    //if what's pressed is not the parent container, run function
     if(event.target !== event.currentTarget) {
+        //sets variable buttonPress to be the id, which is set to the cities name
         var buttonPress = event.target.id
-        // cardCityName.textContent = buttonPress;
+
+        //uses the button's id (city name) to fetch the weather data and display it to the page
         fetchWeatherInfo(buttonPress);
     }
+
+    //prevents button clicks to affect the rest of the items in the parent container 
     event.stopPropagation();
 });
 
 //API call to pull weather information
 function fetchWeatherInfo(cityName) {
-    
+
+    //the first url is used to get the lat/long coordinates
     var url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=22da6aaaf94bcdcc6197f3b16198b09d";
     fetch(url)
     .then(function(response){
-        if(response.status !== 200) { //if they city they searched is not found, alert will pop up
-            alert("Not a valid city.");
-            return;
-        }
-        return response.json();
-    })
-    .then(function(data){
-        cardCityName.textContent = cityName; 
-        createButton(cityName);
-       var cityLat = data.coord.lat;
-       var cityLon = data.coord.lon;
+        if(response.ok) { 
+           response.json().then(function(data){
+            cardCityName.textContent = cityName; 
+            //stores city search if it doesn't matach another search
+            var mostRecentSearch = cityName;
+            storedSearches.push(mostRecentSearch);
 
-        //returns a new API call using the latitute and longitude collected from the first, also exludes minutely and hourly data b/c not needed
-        return fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly&appid=22da6aaaf94bcdcc6197f3b16198b09d");
+            //when more than 10 items in local storage, removes first item in local storage and corresponding button
+            if(storedSearches.length > 11) {
+                    storedSearches.shift();
+                    buttonEl.removeChild(buttonEl.childNodes[1]);
+                }
+        
+            //saves the cities search in local storage
+            localStorage.setItem('cities', JSON.stringify(storedSearches));
+
+            createButton(cityName);
+           var cityLat = data.coord.lat;
+           var cityLon = data.coord.lon;
+            pullAllData(cityLat,cityLon);
+           })
+        } else { //if they city they searched is not found, alert will pop up
+            alert("Not a valid city.");
+        };
     })
+    .catch(function(error) {
+        alert("Error: " + response.statusText);
+    })  
+}
+
+function pullAllData(lat, long) {
+    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + long + "&exclude=minutely,hourly&appid=22da6aaaf94bcdcc6197f3b16198b09d")
     .then(function(data){
         return data.json();
     })
@@ -110,7 +128,7 @@ function fetchWeatherInfo(cityName) {
         if(currentUVIndex<6) {
             spanEl.setAttribute('style','background: green; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
         } else if(currentUVIndex <9) {
-            spanEl.setAttribute('style','background: yellow; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
+            spanEl.setAttribute('style','background: yellow; border-radius: 10px; padding: 5px; padding-left: 10px; padding-right: 10px;')
         } else {
             spanEl.setAttribute('style','background: red; border-radius: 10px; color: white; padding: 5px; padding-left: 10px; padding-right: 10px;')
         }
@@ -174,8 +192,9 @@ function generateSavedButtons() {
 
 function init () {
     displayDate();
-    fetchWeatherInfo("Sacramento"); //pre-populates weather info for Sacramento, could use "current location" in future when know how to pull
     generateSavedButtons();
+    fetchWeatherInfo("Sacramento"); //pre-populates weather info for Sacramento, could use "current location" in future when know how to pull
+
 }
 
 init();
