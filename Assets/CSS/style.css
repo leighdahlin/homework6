@@ -99,7 +99,7 @@
 
 .featured {
     height: 55%;
-    width: 90%;
+    width: 85%;
     margin: 0rem 5% 5% 5%;
     border-radius: 15px;
     background-color: var(--soft-green);
@@ -110,6 +110,7 @@
     height: 75px;
     display: flex;
     align-content: center;
+    justify-content: space-evenly;
 }
 
 #current-date {
@@ -119,6 +120,10 @@
     background-color: var(--gray);
     color: var(--cream);
     font-size: 1.25rem;
+}
+
+#weather-icon {
+    height: 8rem;
 }
 
 #city-name {
@@ -132,14 +137,6 @@
     display: flex;
     flex-direction: row;
 } 
-
-.hidden {
-    display: none;
-}
-
-.visible {
-    display: inline;
-}
 
 img {
     display: inline;
@@ -173,11 +170,132 @@ h2 {
 }
 
 .card-body p {
-    font-size: .85rem;
+    font-size: .75rem;
     color: var(--gray);
 }
 
 .icon {
     height: 25%;
     text-align: center;
+}
+
+
+@media screen and (max-width: 940px) {
+
+    .card-body p {
+        font-size: 1rem;
+    }
+
+    .forecast-cards {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin: 1%;
+    }
+
+    .daily {
+        width: 45%;
+        margin: 3%;
+       }
+
+       .forecast-container {
+        text-align: center;
+    }
+    
+
+    h5 {
+        text-align: center;
+    }
+
+    .icon {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        height: 30%;
+    }
+
+    .card-body p {
+        text-align: center;
+        font-size: 1rem;
+        padding: .1rem;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
+    .body-container {
+        background:#95B2B8;
+    }
+
+    .daily {
+        width: 45%;
+        height: 80%;
+       }
+
+}
+
+@media screen and (max-width: 576px) {
+
+    .body-container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #dashboard {
+        color: var(--cream);
+        font-size: 2.5rem;
+    }
+    .header-info {
+        font-size: 1.5rem;
+    }
+
+    #search-bar {
+        width: 8rem;
+    }
+
+    .nav-container {
+        width: 20rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar {
+        width: 20rem;
+        margin-bottom: 0rem;
+        padding-bottom: 0rem;
+        background-color: inherit;
+    }
+
+    .button-div {
+        width: 50%;
+        margin: 5%;
+       
+    }
+
+    .list-group-item {
+        text-align: center;
+    }
+
+    .header-div {
+        flex-direction: column;
+        height: 18%;
+    }
+
+     #weather-icon {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    } 
+
+    .daily {
+        width: 65%;
+        height: 80%;
+        margin: 3%;
+       }
+    
+
 }
