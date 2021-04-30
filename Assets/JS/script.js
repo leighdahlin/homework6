@@ -54,7 +54,7 @@ searchButton.addEventListener('click', function(event){
         
         //runs function to fetch weather data and input it into the page
         ;
-        createButton(cityName);
+        createButton(cityCapitalized);
         fetchWeatherInfo(cityCapitalized);
         
     }
